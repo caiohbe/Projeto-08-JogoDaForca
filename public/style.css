@@ -4,6 +4,7 @@
 
 body {
     font-family: 'Roboto', sans-serif;
+    margin: auto;
 }
 
 img {
@@ -31,10 +32,6 @@ upper {
    margin-top: 60px;
 }   
 
-content {
-    margin: auto;
-}
-
 lower {
     display: flex;
     width: 50%;
@@ -59,6 +56,12 @@ letter {
     color: #39739D;
     border: 2px solid #80ABC9;
     background-color: #E1ECF4;
+}
+
+.nonSelectable {
+    color: #7F818A;
+    border: none;
+    background-color: #9FAAB5;
 }
 
 attempt {
