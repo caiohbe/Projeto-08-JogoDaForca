@@ -1,28 +1,43 @@
 import React from "react"
 import palavras from "./palavras"
+import "./style.css";
 
+const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 let progress = []
 let answer
 let answerArr = []
-let erros = 0
+let errors = 0
+let guessed = alfabeto.map((letter, index) => {
+    return (index) 
+}) 
 
 export default function App() {
     const [word, setWord] = React.useState('')
-
-    const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-    const alphabet = alfabeto.map((letter) => {
+    const alphabet = alfabeto.map((letter, index) => {
         return (
-            <letter className="selectable" onClick={() => attempt(letter)}>
+            <letter className={guessed.includes(index) ? "nonSelectable" : "selectable"} onClick={() => guess(letter, index)}>
                 {letter.toUpperCase()}
             </letter>
         )
     })
 
-    function attempt(letter) {
+    function guess(letter, index) {
+        if (guessed.includes(index)) {
+            return
+        } else {guessed.push(index)}
+
+        const before = [...progress]
         for (let i = 0; i < answerArr.length; i++) {
             if (answerArr[i].normalize("NFD").replace(/[\u0300-\u036f]/g, "") === letter) {
-                console.log('SIM')
                 progress[i] = answerArr[i]
+            }
+        }
+
+        for (let i = 0; i <= progress.length; i++) {
+            if (before[i] !== progress[i]) {
+                break
+            } else if (i === progress.length) {
+                errors++
             }
         }
 
@@ -32,13 +47,17 @@ export default function App() {
         })
 
         setWord(word)
-        console.log(word)
-        console.log(answerArr)
-        console.log(progress)
+
+        if (word.includes('_') === false) {
+            console.log('VITORIA')
+        }
+        console.log(guessed)
     }
 
 
     function selectWord() {
+        errors = 0
+        guessed = []
         answerArr = []
         progress = []
         let underline = ''
@@ -68,11 +87,11 @@ export default function App() {
             <lower>
                 {alphabet}
             </lower>
-            <attempt>
+            <guess>
                 <span>Já sei a palavra! &nbsp;</span>
                 <input type="text"></input>
                 <button className="try">Chutar</button>
-            </attempt>
+            </guess>
         </React.Fragment>
     )
 }

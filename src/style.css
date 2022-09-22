@@ -64,7 +64,7 @@ letter {
     background-color: #9FAAB5;
 }
 
-attempt {
+guess {
     display: flex;
     justify-content: center;
     margin-top: 35px;
