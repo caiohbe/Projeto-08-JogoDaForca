@@ -1,6 +1,15 @@
 import React from "react"
 import palavras from "./palavras"
 import "./style.css";
+import forca0 from "./assets/forca0.png" 
+import forca1 from "./assets/forca1.png" 
+import forca2 from "./assets/forca2.png" 
+import forca3 from "./assets/forca3.png" 
+import forca4 from "./assets/forca4.png" 
+import forca5 from "./assets/forca5.png" 
+import forca6 from "./assets/forca6.png" 
+
+const images = [forca0, forca1, forca2, forca3, forca4, forca5, forca6]
 
 const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 let progress = []
@@ -12,6 +21,7 @@ let guessed = alfabeto.map((letter, index) => {
 }) 
 
 export default function App() {
+    const [image, setImage] = React.useState(images[errors])
     const [word, setWord] = React.useState('')
     const alphabet = alfabeto.map((letter, index) => {
         return (
@@ -27,6 +37,7 @@ export default function App() {
         } else {guessed.push(index)}
 
         const before = [...progress]
+
         for (let i = 0; i < answerArr.length; i++) {
             if (answerArr[i].normalize("NFD").replace(/[\u0300-\u036f]/g, "") === letter) {
                 progress[i] = answerArr[i]
@@ -38,12 +49,13 @@ export default function App() {
                 break
             } else if (i === progress.length) {
                 errors++
+                setImage(images[errors])
             }
         }
 
         let word = ''
-        progress.forEach((e) => {
-            word += `${e} `
+        progress.forEach((l) => {
+            word += `${l} `
         })
 
         setWord(word)
@@ -78,7 +90,7 @@ export default function App() {
     return (
         <React.Fragment>
             <upper>
-                <img src="assets/forca0.png" alt="forca" />
+                <img src={image} alt="forca" />
                 <right>
                     <button className="select" onClick={selectWord}>Escolher Palavra</button>
                     <p>{word}</p>
