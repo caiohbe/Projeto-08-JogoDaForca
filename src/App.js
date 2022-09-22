@@ -10,7 +10,6 @@ import forca5 from "./assets/forca5.png"
 import forca6 from "./assets/forca6.png" 
 
 const images = [forca0, forca1, forca2, forca3, forca4, forca5, forca6]
-
 const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 let progress = []
 let answer
@@ -22,6 +21,7 @@ let guessed = alfabeto.map((letter, index) => {
 
 export default function App() {
     const [image, setImage] = React.useState(images[errors])
+    const [color, setColor] = React.useState('')
     const [word, setWord] = React.useState('')
     const alphabet = alfabeto.map((letter, index) => {
         return (
@@ -32,7 +32,7 @@ export default function App() {
     })
 
     function guess(letter, index) {
-        if (guessed.includes(index)) {
+        if (guessed.includes(index) || errors === 6) {
             return
         } else {guessed.push(index)}
 
@@ -60,8 +60,15 @@ export default function App() {
 
         setWord(word)
 
+        if (errors === 6) {
+            disableGame()
+            setWord(answer)
+            setColor('red')
+        }
+
         if (word.includes('_') === false) {
-            console.log('VITORIA')
+            disableGame()
+            setColor('green')
         }
         console.log(guessed)
     }
@@ -83,9 +90,16 @@ export default function App() {
             progress.push('_')
         }
         setWord(underline)
+        setImage(images[0])
         console.log(answer)
     }
 
+    function disableGame() {
+        console.log('acabo')
+        guessed = alfabeto.map((letter, index) => {
+            return (index) 
+        }) 
+    }
 
     return (
         <React.Fragment>
@@ -93,7 +107,7 @@ export default function App() {
                 <img src={image} alt="forca" />
                 <right>
                     <button className="select" onClick={selectWord}>Escolher Palavra</button>
-                    <p>{word}</p>
+                    <p className={color}>{word}</p>
                 </right>
             </upper>
             <lower>
