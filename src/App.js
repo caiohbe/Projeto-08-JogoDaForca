@@ -68,6 +68,7 @@ export default function App() {
 
         if (word.includes('_') === false) {
             disableGame()
+            setWord(answer)
             setColor('green')
         }
         console.log(guessed)
@@ -91,6 +92,7 @@ export default function App() {
         }
         setWord(underline)
         setImage(images[0])
+        setColor('')
         console.log(answer)
     }
 
@@ -117,6 +119,7 @@ export default function App() {
                 <span>Já sei a palavra! &nbsp;</span>
                 <input type="text"></input>
                 <button className="try">Chutar</button>
+                <div className={`unclickable ${guessed.length === 26 ? "" : "hidden"}`}></div>
             </guess>
         </React.Fragment>
     )
