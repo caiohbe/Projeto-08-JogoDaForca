@@ -23,6 +23,7 @@ export default function App() {
     const [image, setImage] = React.useState(images[errors])
     const [color, setColor] = React.useState('')
     const [word, setWord] = React.useState('')
+    const [shot, setShot] = React.useState('')
     const alphabet = alfabeto.map((letter, index) => {
         return (
             <letter className={guessed.includes(index) ? "nonSelectable" : "selectable"} onClick={() => guess(letter, index)}>
@@ -34,7 +35,9 @@ export default function App() {
     function guess(letter, index) {
         if (guessed.includes(index) || errors === 6) {
             return
-        } else {guessed.push(index)}
+        } else {
+            guessed.push(index)
+        }
 
         const before = [...progress]
 
@@ -103,6 +106,16 @@ export default function App() {
         }) 
     }
 
+    function guessWord(word) {
+        disableGame()
+        setWord(answer)
+        if (word.toLowerCase() === answer.normalize("NFD").replace(/[\u0300-\u036f]/g, "")) {
+            setColor('green')
+        } else {
+            setColor('red')
+        }
+    }
+
     return (
         <React.Fragment>
             <upper>
@@ -117,8 +130,8 @@ export default function App() {
             </lower>
             <guess>
                 <span>Já sei a palavra! &nbsp;</span>
-                <input type="text"></input>
-                <button className="try">Chutar</button>
+                <input type="text" onChange={e => setShot(e.target.value)}></input>
+                <button className="try" onClick={() => guessWord(shot)}>Chutar</button>
                 <div className={`unclickable ${guessed.length === 26 ? "" : "hidden"}`}></div>
             </guess>
         </React.Fragment>
