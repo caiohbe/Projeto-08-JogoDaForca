@@ -26,7 +26,7 @@ export default function App() {
     const [shot, setShot] = React.useState('')
     const alphabet = alfabeto.map((letter, index) => {
         return (
-            <letter className={guessed.includes(index) ? "nonSelectable" : "selectable"} onClick={() => guess(letter, index)}>
+            <letter data-identifier="letter" className={guessed.includes(index) ? "nonSelectable" : "selectable"} onClick={() => guess(letter, index)}>
                 {letter.toUpperCase()}
             </letter>
         )
@@ -119,10 +119,10 @@ export default function App() {
     return (
         <React.Fragment>
             <upper>
-                <img src={image} alt="forca" />
+                <img data-identifier="game-image" src={image} alt="forca" />
                 <right>
-                    <button className="select" onClick={selectWord}>Escolher Palavra</button>
-                    <p className={color}>{word}</p>
+                    <button className="select" onClick={selectWord} data-identifier="choose-word">Escolher Palavra</button>
+                    <p data-identifier="word" className={color}>{word}</p>
                 </right>
             </upper>
             <lower>
@@ -130,8 +130,8 @@ export default function App() {
             </lower>
             <guess>
                 <span>Já sei a palavra! &nbsp;</span>
-                <input type="text" onChange={e => setShot(e.target.value)}></input>
-                <button className="try" onClick={() => guessWord(shot)}>Chutar</button>
+                <input data-identifier="type-guess" type="text" onChange={e => setShot(e.target.value)}></input>
+                <button data-identifier="guess-button" className="try" onClick={() => guessWord(shot)}>Chutar</button>
                 <div className={`unclickable ${guessed.length === 26 ? "" : "hidden"}`}></div>
             </guess>
         </React.Fragment>
